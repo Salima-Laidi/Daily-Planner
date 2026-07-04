@@ -11,3 +11,51 @@
   --font-content: "Inter", sans-serif;
 
 }
+/* general styling */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  background-color: #F3EADF;
+}
+
+
+@layer components{
+  .sidbar-element{
+    @apply flex gap-3 p-4 rounded-lg w-full items-center cursor-pointer transition duration-300 hover:bg-light-brown/30;
+  }
+  .sidbar-icon {
+    @apply text-beige-border w-7 h-7;
+  }
+  .sidbar-text{
+    @apply text-light-beige text-lg font-content;
+  }
+  .card{
+    @apply bg-light-beige p-4 md:px-6 md:py-8 flex rounded-xl gap-8 border border-solid border-beige-border items-center cursor-pointer
+  }
+  .card-icon{
+    @apply md:w-20 md:h-20 w-15 h-15 bg-beige-border/70 rounded-full flex items-center justify-center
+  }
+  .card-text-1{
+    @apply font-content text-brown text-xl md:text-3xl font-semibold md:mb-2
+  }
+  .card-text-2{
+    @apply font-content text-brown  text-lg font-semibold md:mb-2
+  }
+  .card-text-3{
+    @apply font-content text-light-brown  font-medium
+  }
+  .bottom-element{
+    @apply flex flex-col items-center cursor-pointer
+  }
+  .bottom-icon{
+    @apply h-8 w-10 rounded-lg flex items-center justify-center transition duration-300 hover:bg-beige-border/50
+  }
+  .bottom-text{
+    @apply font-content font-semibold text-brown text-xs
+  }
+}

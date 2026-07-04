@@ -1,7 +1,7 @@
 import Logo from "./logo";
 function Header(){
     return(
-        <div className="md:hidden m-4">
+        <div className="md:hidden mt-5  mb-8 flex justify-center">
             <Logo/>
         </div>
     )
