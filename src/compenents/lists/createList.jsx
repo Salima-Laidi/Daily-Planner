@@ -1,16 +1,16 @@
-import { useState,useEffect} from "react";
+import { useState} from "react";
 import{useLocation, useNavigate} from "react-router-dom";
 import EmptyState from "../emptyState";
 import EditingBox from "./editing";
 import{Plus, Pencil,MoveLeft, Trash2, Check} from "lucide-react"
 
 
-function TaskCard({task, setLists, id}){
+function TaskCard({task, setLists, id, saveLists}){
 
     function change(e){
-        setLists(prevLists =>
-                // i will update a list 
-                prevLists.map((list) =>
+        setLists(prevLists =>{
+                // updating the list  
+                const lists = prevLists.map((list) =>
                     list.id === id
                     ? { ...list, 
                         tasksList: list.tasksList.map(todo =>
@@ -18,23 +18,26 @@ function TaskCard({task, setLists, id}){
                             { ...todo, state:e.target.checked}
                             :todo
                         )}
-                    : list
-            )
-        )
+                    : list)
+                saveLists(lists)
+                return lists
+        })
     }
 
 
     function clear(){
-        setLists(prevLists =>
-                // i will update a list 
-                prevLists.map((list) =>
+        setLists(prevLists =>{
+                // updating the list 
+                const lists = prevLists.map((list) =>
                     list.id === id
                     ? { ...list, 
                         tasksList: list.tasksList.filter((todo)=>todo.id !== task.id )
                     }
-                    : list
-            )
-        )
+                    : list)
+                saveLists(lists)
+                return lists
+        })
+        
     }
     return(
         <div className="bg-light-beige flex p-4 md:py-6 md:px-10 rounded-lg border border-solid border-beige-border justify-between items-center mb-4">
@@ -54,26 +57,14 @@ function TaskCard({task, setLists, id}){
 
 
 
-function CreateList({lists, setLists, taskID, setTaskId}){
+function CreateList({lists, setLists, taskID, setTaskId, saveLists}){
     // i used the useLocation hook to get the state passed from the creatingbox component when i click on the create button
     const location = useLocation();
     const navigate = useNavigate();
-    const title = location.state?.title;
     const id = location.state?.id
     const [edit, setEdit] = useState(false)
-    const [title2, setTitle2] = useState(title)
     const [name, setName] = useState("");
     const[error, setError] = useState(false)
-    useEffect(() => {
-
-        setLists(prevLists => {
-                return prevLists.map((list) =>
-                    list.id === id
-                        ? { ...list, title:title2 ,update:Date.now()}
-                        : list
-                );
-            });
-    }, [id, title,title2, setLists]);
 
     function createTask(){
         if(name===""){
@@ -81,9 +72,9 @@ function CreateList({lists, setLists, taskID, setTaskId}){
         }
         else{
             // in arrow function when it`s singale line we don`t need return when it`s multiple lines we need return
-            setLists(prevLists =>
-                // i will update a list 
-                    prevLists.map((list) =>
+            setLists(prevLists =>{
+                // i will update a list  by creating a new task
+                    const lists = prevLists.map((list) =>
                     list.id === id
                     ? { ...list, 
                         tasksList:[
@@ -95,12 +86,14 @@ function CreateList({lists, setLists, taskID, setTaskId}){
                             }
                         ]
                     }
-                    : list
-            )
-        )
+                    : list)
+                    saveLists(lists)
+                return lists
+            })
             setTaskId(taskID+1);
             //to clear the input
             setName("");
+
         }
     }
     // we used find because returns the element directly, filter returns array
@@ -114,7 +107,7 @@ function CreateList({lists, setLists, taskID, setTaskId}){
                 <div className="flex gap-8 items-center">
                     <span onClick={() => navigate("/lists")} className="p-3 border border-solid border-beige-border rounded-lg hover:cursor-pointer"><MoveLeft className="text-brown w-3 h-3 md:w-6 md:h-6"/></span>
                     <div>
-                        <h1 className="page-title text-xl md:text-3xl capitalize mb-4 flex gap-2 items-center">{title2}
+                        <h1 className="page-title text-xl md:text-3xl capitalize mb-4 flex gap-2 items-center">{currentList[0].title}
                             <span onClick={() => { setEdit(true); }}><Pencil className="md:w-6 md:h-6 w-4 h-4 hover:cursor-pointer"/></span>
                         </h1>
                         <div className="flex items-center gap-3 md:gap-4">
@@ -140,12 +133,13 @@ function CreateList({lists, setLists, taskID, setTaskId}){
                     </div>
                 </div>
             </div>
-            {edit && <EditingBox setTitle2={setTitle2}  close={() => setEdit(false)} />}
+            {edit && <EditingBox setLists={setLists} saveLists={saveLists} id={id}  close={() => setEdit(false)} />}
+            
             {currentList[0].tasksList.length ===0 ?<EmptyState heading={"You don`t have any tasks yet"} paragraph={"Add your first task to get started."}/>
             : <div>
                 {
                     currentList[0].tasksList.map((task)=>{return(
-                        <TaskCard key={task.id} task={task} setLists={setLists} id={id}/>
+                        <TaskCard key={task.id} task={task} setLists={setLists} id={id} saveLists={saveLists} />
                 )})
                 }
             </div>}

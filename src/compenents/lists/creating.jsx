@@ -2,7 +2,7 @@ import{useState}from "react";
 import{useNavigate} from "react-router-dom"
 
 
-function CreatingBox({id, setId,setLists, close}){
+function CreatingBox({id, setId, setLists, close, saveLists}){
     const [title, setTitle] = useState("");
     const [error, setError] = useState(false);
     const navigate = useNavigate();
@@ -11,8 +11,9 @@ function CreatingBox({id, setId,setLists, close}){
             setError(true);
         }
         else{
-            navigate(`/lists/${id}`, {state:{id, title}});
-            setLists(prevList => [
+            navigate(`/lists/${id}`, {state:{id}});
+            setLists(prevList =>{
+                const lists=[
                 ...prevList,
                 {
                     id: id,
@@ -20,7 +21,10 @@ function CreatingBox({id, setId,setLists, close}){
                     tasksList : [],
                     update: Date.now(),
                 }
-            ])
+            ]
+            saveLists(lists)
+            return lists
+        })
             setId(id + 1); 
             close();
         }

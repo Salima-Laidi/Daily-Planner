@@ -6,7 +6,7 @@ import ListCard from "./listCard";
 
 
 
-function Lists({ id, setId, lists, setLists }){
+function Lists({ id, setId, lists, setLists, saveLists }){
     const [create, setCreate] = useState(false);
     const [option, setOption] = useState("all");
     const [search, setSearch] = useState("")
@@ -36,11 +36,11 @@ function Lists({ id, setId, lists, setLists }){
                 <button className={`filter ${option === "unstarted" && "bg-brown text-light-beige"}`} onClick={()=> setOption("unstarted")}>Not started</button>
             </div>
             {/* i passes close as prop to use it in creatingbox when i`ll click on the button cancel to make the creatingbox disappear */}
-            {create && <CreatingBox id={id} setId={setId} setLists={setLists} close={() =>setCreate(false)}/>}
+            {create && <CreatingBox id={id} setId={setId} setLists={setLists} close={() =>setCreate(false)} saveLists={saveLists}/>}
             { lists.length === 0&& <EmptyState heading={"You don`t have any lists yet"} paragraph={"Create your first list to organize your tasks and stay productive!"}/>}
             {/* SEARCH */}
             {search ?
-            <div>
+            <div className="mb-8">
                 {
                 [...lists].sort((a,b)=> b.update - a.update)
                 .filter(list =>{
@@ -48,26 +48,26 @@ function Lists({ id, setId, lists, setLists }){
                 })
                 .map(list => {
                     return(
-                    <ListCard key={list.id} list={list} setLists={setLists}/>
+                    <ListCard key={list.id} list={list} setLists={setLists} saveLists={saveLists}/>
                     )
                 })}
             </div>
             :<>
             {/* ALL */}
             {option === "all"&&
-            <div>
+            <div className="mb-8">
                 {/* we use map and not forEach cause it returns nothing the opposite of map that returns jsx and we need a jsx card to be diplayed */}
                 {
                 [...lists].sort((a,b)=> b.update - a.update).map(list => {
                     return(
-                    <ListCard key={list.id} list={list} setLists={setLists}/>
+                    <ListCard key={list.id} list={list} setLists={setLists} saveLists={saveLists}/>
                     )
                 })}
             </div>}
 
             {/* PROGRESS */}
             {option === "progress"&&
-            <div>
+            <div className="mb-8">
                 {
                 [...lists].sort((a,b)=> b.update - a.update)
                 .filter(list =>{
@@ -78,7 +78,7 @@ function Lists({ id, setId, lists, setLists }){
                 })
                 .map(list => {
                     return(
-                    <ListCard key={list.id} list={list} setLists={setLists}/>
+                    <ListCard key={list.id} list={list} setLists={setLists} saveLists={saveLists}/>
                     )
                 })}
             </div>}
@@ -86,7 +86,7 @@ function Lists({ id, setId, lists, setLists }){
 
             {/* COMPLETED */}
             {option === "completed"&&
-            <div>
+            <div className="mb-8">
                 {
                 [...lists].sort((a,b)=> b.update - a.update)
                 .filter(list =>{
@@ -97,7 +97,7 @@ function Lists({ id, setId, lists, setLists }){
                 })
                 .map(list => {
                     return(
-                    <ListCard key={list.id} list={list} setLists={setLists}/>
+                    <ListCard key={list.id} list={list} setLists={setLists} saveLists={saveLists}/>
                     )
                 })}
             </div>}
@@ -105,7 +105,7 @@ function Lists({ id, setId, lists, setLists }){
 
             {/* UNSTARTED */}
             {option === "unstarted"&&
-            <div>
+            <div className="mb-8">
                 {
                 [...lists].sort((a,b)=> b.update - a.update)
                 .filter(list =>{
@@ -116,7 +116,7 @@ function Lists({ id, setId, lists, setLists }){
                 })
                 .map(list => {
                     return(
-                    <ListCard key={list.id} list={list} setLists={setLists}/>
+                    <ListCard key={list.id} list={list} setLists={setLists} saveLists={saveLists}/>
                     )
                 })}
             </div>}
@@ -130,4 +130,4 @@ function Lists({ id, setId, lists, setLists }){
     )
 }
 
-export default Lists; // default export
+export default Lists; 

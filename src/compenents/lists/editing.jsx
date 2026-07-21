@@ -1,5 +1,5 @@
 import { useState } from "react";
-function EditingBox({ setTitle2, close }){
+function EditingBox({setLists, saveLists, id, close }){
     const [error, setError] = useState(false);
     const [draftTitle, setDraftTitle] = useState("");
 
@@ -12,7 +12,18 @@ function EditingBox({ setTitle2, close }){
             setError(true);
         }
         else{ 
-            setTitle2(draftTitle);
+            setLists(prevLists => {
+                // update the list
+                    const lists= prevLists.map((list) =>
+                        list.id === id
+                            ? { ...list, 
+                                title:draftTitle ,
+                                update:Date.now()}
+                            : list
+                    );
+                    saveLists(lists)
+                    return lists
+                });
             close();
         }
     }
