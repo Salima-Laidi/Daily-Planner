@@ -1,4 +1,4 @@
-import {House, List,  NotebookText} from "lucide-react"
+import {House, List} from "lucide-react"
 
 import Logo from "./logo"
 import { NavLink } from "react-router-dom";
@@ -9,7 +9,7 @@ import { NavLink } from "react-router-dom";
 function Sidebar(){
 
     return(
-        <div className="hidden md:flex h-full w-65 bg-brown flex-col items-center pt-12 gap-15 p-4">
+        <div className="hidden md:flex h-screen fixed top-0 w-[15%]  bg-brown flex-col items-center pt-12 gap-15 p-4">
             <Logo/>
             <nav className="flex flex-col gap-4 w-full">
                 {/* we created a function in the navlink classname to handle active link styling */}
@@ -20,10 +20,6 @@ function Sidebar(){
                 <NavLink to="/lists" className={({ isActive }) => `sidbar-element ${isActive ? "bg-light-brown/50" : ""}`}>
                     <List className="sidbar-icon"/>
                     <span className="sidbar-text">Lists </span>
-                </NavLink>
-                <NavLink to="/notes" className={({ isActive }) => `sidbar-element ${isActive ? "bg-light-brown/50" : ""}`}>
-                    <NotebookText className="sidbar-icon"/>
-                    <span className="sidbar-text"> Notes</span>
                 </NavLink>
                 
             </nav>
