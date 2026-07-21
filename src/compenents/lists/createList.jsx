@@ -12,7 +12,8 @@ function TaskCard({task, setLists, id, saveLists}){
                 // updating the list  
                 const lists = prevLists.map((list) =>
                     list.id === id
-                    ? { ...list, 
+                    ? { ...list,
+                        update: Date.now(), 
                         tasksList: list.tasksList.map(todo =>
                             todo.id === task.id? 
                             { ...todo, state:e.target.checked}
@@ -31,6 +32,7 @@ function TaskCard({task, setLists, id, saveLists}){
                 const lists = prevLists.map((list) =>
                     list.id === id
                     ? { ...list, 
+                        update: Date.now(),
                         tasksList: list.tasksList.filter((todo)=>todo.id !== task.id )
                     }
                     : list)
@@ -77,6 +79,7 @@ function CreateList({lists, setLists, taskID, setTaskId, saveLists}){
                     const lists = prevLists.map((list) =>
                     list.id === id
                     ? { ...list, 
+                        update: Date.now(),
                         tasksList:[
                             ...list.tasksList,
                             {
