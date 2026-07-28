@@ -1,3 +1,5 @@
+// i imported the image so it displays after the deployment if i don`t do this it wont be found cause vite changes the name of the image automatically
+
 import notebook from "../assets/notebook.png";
 
 

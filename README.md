@@ -5,7 +5,7 @@
 
 
 # Live Demo
-
+    https://daily-planner-kfb1.vercel.app/
 
 # Features
 - Create multiple lists
@@ -31,3 +31,4 @@
 - Lucide React Icons
 
 # Author
+    https://github.com/Salima-Laidi
